@@ -1,6 +1,5 @@
 package com.qianxunclub.grpchttpgateway.utils;
 
-import com.google.common.net.HostAndPort;
 import io.grpc.CallOptions;
 import io.grpc.Channel;
 import io.grpc.ClientCall;
@@ -16,19 +15,14 @@ import io.grpc.netty.NettyChannelBuilder;
 import java.util.Map;
 
 import static io.grpc.Metadata.ASCII_STRING_MARSHALLER;
-import static java.util.Collections.emptyMap;
 
 /**
  * Knows how to construct grpc channels.
  */
 public class ChannelFactory {
 
-    public static ManagedChannel create(HostAndPort endpoint) {
-        return create(endpoint, emptyMap());
-    }
-
-    public static ManagedChannel create(HostAndPort endpoint, Map<String, Object> metaDataMap) {
-        return NettyChannelBuilder.forAddress(endpoint.getHost(), endpoint.getPort())
+    public static ManagedChannel create(String host, int port, Map<String, Object> metaDataMap) {
+        return NettyChannelBuilder.forAddress(host, port)
                 .negotiationType(NegotiationType.PLAINTEXT)
                 .intercept(metadataInterceptor(metaDataMap))
                 .build();

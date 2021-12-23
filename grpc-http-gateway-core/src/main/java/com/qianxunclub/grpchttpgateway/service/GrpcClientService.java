@@ -12,6 +12,7 @@ import io.grpc.ClientCall;
 import io.grpc.MethodDescriptor.MethodType;
 import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Nullable;
@@ -25,6 +26,7 @@ import static io.grpc.stub.ClientCalls.asyncServerStreamingCall;
 import static io.grpc.stub.ClientCalls.asyncUnaryCall;
 
 @Slf4j
+@Service
 public class GrpcClientService {
 
     @Nullable

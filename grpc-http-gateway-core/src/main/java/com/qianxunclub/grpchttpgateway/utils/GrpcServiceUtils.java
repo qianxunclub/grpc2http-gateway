@@ -1,7 +1,7 @@
 package com.qianxunclub.grpchttpgateway.utils;
 
-import com.google.common.net.HostAndPort;
 import com.google.protobuf.DescriptorProtos;
+import com.google.protobuf.Descriptors;
 import com.qianxunclub.grpchttpgateway.grpc.ServiceResolver;
 import io.grpc.Channel;
 import io.grpc.ManagedChannelBuilder;
@@ -12,9 +12,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static java.util.Collections.emptyList;
-
-public class ServiceRegisterUtils {
+public class GrpcServiceUtils {
 
     private static final Set<String> blockServiceSet = new HashSet<>();
 
@@ -23,26 +21,13 @@ public class ServiceRegisterUtils {
         blockServiceSet.add("grpc.reflection.v1alpha.ServerReflection".toLowerCase());
     }
 
-    public static List<DescriptorProtos.FileDescriptorSet> registerByIpAndPort(String hostAndPort) {
-        String[] strings = hostAndPort.split(":");
-        if (strings.length != 2) {
-            return emptyList();
-        }
-        return registerByIpAndPort(strings[0], Integer.parseInt(strings[1]));
-    }
 
-    public static List<DescriptorProtos.FileDescriptorSet> registerByIpAndPort(String host, int port) {
-        HostAndPort hostAndPort = HostAndPort.fromParts(host, port);
-        Channel channel = ManagedChannelBuilder.forAddress(hostAndPort.getHost(), hostAndPort.getPort())
+    public static List<DescriptorProtos.FileDescriptorSet> getFileDescriptorSetList(String host, int port) {
+        Channel channel = ManagedChannelBuilder.forAddress(host, port)
                 .usePlaintext()
                 .build();
 
-        List<DescriptorProtos.FileDescriptorSet> fileDescriptorSets = GrpcReflectionUtils.resolveServices(channel);
-        fileDescriptorSets.forEach(fileDescriptorSet -> {
-            ServiceResolver serviceResolver = ServiceResolver.fromFileDescriptorSet(fileDescriptorSet);
-            System.out.println(serviceResolver);
-        });
-        return fileDescriptorSets;
+        return GrpcReflectionUtils.resolveServices(channel);
     }
 
     public static List<String> getServiceNames(List<DescriptorProtos.FileDescriptorSet> fileDescriptorSets) {
@@ -58,5 +43,19 @@ public class ServiceRegisterUtils {
             });
         });
         return serviceNames.stream().distinct().sorted().collect(Collectors.toList());
+    }
+
+
+    public static List<String> getMethodNames(List<DescriptorProtos.FileDescriptorSet> fileDescriptorSets) {
+        List<String> methodNames = new ArrayList<>();
+        fileDescriptorSets.forEach(fileDescriptorSet -> {
+            ServiceResolver serviceResolver = ServiceResolver.fromFileDescriptorSet(fileDescriptorSet);
+            serviceResolver.listServices().forEach(serviceDescriptor -> {
+                List<Descriptors.MethodDescriptor> methodDescriptorList = serviceDescriptor.getMethods();
+                methodDescriptorList.forEach(methodDescriptor -> methodNames.add(methodDescriptor.getFullName()));
+
+            });
+        });
+        return methodNames;
     }
 }

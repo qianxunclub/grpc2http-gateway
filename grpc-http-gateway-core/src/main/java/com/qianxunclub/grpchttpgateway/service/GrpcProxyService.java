@@ -13,12 +13,18 @@ import com.qianxunclub.grpchttpgateway.utils.MessageWriter;
 import io.grpc.CallOptions;
 import io.grpc.Channel;
 import io.grpc.stub.StreamObserver;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
+@Service
+@AllArgsConstructor
 public class GrpcProxyService {
-    private GrpcClientService grpcClientService = new GrpcClientService();
+
+    private final GrpcClientService grpcClientService;
 
     public CallResults invokeMethod(GrpcMethodDefinition definition,
                                     Channel channel,
@@ -43,7 +49,7 @@ public class GrpcProxyService {
                 .responseObserver(streamObserver)
                 .build();
         try {
-            grpcClientService.call(callParams).get();
+            Objects.requireNonNull(grpcClientService.call(callParams)).get();
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException("Caught exception while waiting for rpc", e);
         }
