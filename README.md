@@ -21,7 +21,7 @@ Server server = ServerBuilder.forPort(SERVER_PORT)
     .start();
 ```
 
-### 添加环境变量配置
+### grpc-http-gateway 服务添加环境变量配置
 ```
 grpc.endpoint.服务名称.channelHost=localhost
 grpc.endpoint.服务名称.channelPort=9090
