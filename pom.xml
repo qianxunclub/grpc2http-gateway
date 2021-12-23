@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.6.2</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>com.qianxunclub</groupId>
+    <artifactId>grpc-http-gateway</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>grpc-http-gateway</name>
+    <description>grpc 转 http</description>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <git-commit-id-plugin.version>4.0.4</git-commit-id-plugin.version>
+        <grpc.version>1.43.1</grpc.version>
+        <protobuf-java-util.version>3.19.1</protobuf-java-util.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-all</artifactId>
+                <version>${grpc.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-services</artifactId>
+                <version>${grpc.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-java-util</artifactId>
+                <version>${protobuf-java-util.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.2.2</version>
+                <configuration>
+                    <imageName>${project.artifactId}</imageName>
+                    <baseImage>openjdk:8-jdk-alpine</baseImage>
+                    <workdir>/app</workdir>
+                    <forceTags>true</forceTags>
+                    <entryPoint>
+                        <![CDATA[
+                            ["java","-jar","${ENABLE_DEBUG:+'-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005'} $JAVA_OPTS -jar /app/${project.build.finalName}.jar"]
+                        ]]>
+                    </entryPoint>
+                    <resources>
+                        <resource>
+                            <targetPath>/app</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+
+        </plugins>
+
+    </build>
+
+    <modules>
+        <module>grpc-http-gateway-core</module>
+    </modules>
+</project>
