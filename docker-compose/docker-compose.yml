@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  grpc-http-gateway:
+    image: 960339491/grpc-http-gateway:latest
+    ports:
+      - "8080:8080"
