@@ -21,6 +21,12 @@ Server server = ServerBuilder.forPort(SERVER_PORT)
     .start();
 ```
 
+### 添加环境变量配置
+```
+grpc.endpoint.服务名称.channelHost=localhost
+grpc.endpoint.服务名称.channelPort=9090
+```
+
 ### 启动 grpc-http-gateway 服务
 
 示例 proto
@@ -42,13 +48,13 @@ service HelloService {
 ```
 
 #### 获取服务端 Grpc 接口列表
-`GET` 请求 `http://localhost:8080/提供Grpc服务IP/提供Grpc服务端口/`
+`GET` 请求 `http://localhost:8080/服务名称/`
 
 #### 调用 Grpc 接口
 ```
 curl \
 --location \
---request POST 'http://localhost:8080/提供Grpc服务IP/提供Grpc服务端口/Grpc方法名称[com.qianxunclub.proto.HelloService.HelloWorld]' \
+--request POST 'http://localhost:8080/服务名称/Grpc方法名称[com.qianxunclub.proto.HelloService.HelloWorld]' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "fieldName":"value"
