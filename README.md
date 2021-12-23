@@ -37,6 +37,7 @@ package com.qianxunclub.proto;
 option java_outer_classname = "HelloProto";
 
 message HelloRequest {
+    string fieldName = 1;
 }
 
 message HelloResponse {
