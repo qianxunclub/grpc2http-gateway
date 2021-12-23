@@ -1,4 +1,4 @@
-package com.qianxunclub.grpchttpgateway;
+package com.qianxunclub.grpchttpgateway.controller;
 
 import com.google.protobuf.DescriptorProtos;
 import com.qianxunclub.grpchttpgateway.utils.ServiceRegisterUtils;
