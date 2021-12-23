@@ -31,7 +31,7 @@ import static java.util.Collections.singletonList;
 @Slf4j
 @RestController
 @AllArgsConstructor
-@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "api", produces = MediaType.APPLICATION_JSON_VALUE)
 public class GatewayController {
 
     private final GrpcProxyService grpcProxyService;
