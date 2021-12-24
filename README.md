@@ -61,10 +61,22 @@ curl \
 }'
 ```
 
-## 开发部署
 
+## 开发构建
 ### docker 构建镜像
 
 ```
+./docker-build.sh
+```
+构建完镜像名称为：`grpc-http-gateway:latest`
 
+
+## 部署
+### docker-compose 部署
+
+1. 编辑 [docker-compose.yml](docker-compose/docker-compose.yml) ，配置环境变量
+2. 启动
+```
+cd docker-compose
+docker-compose up -d
 ```
