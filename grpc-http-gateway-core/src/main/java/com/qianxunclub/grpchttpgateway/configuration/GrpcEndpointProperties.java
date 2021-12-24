@@ -12,14 +12,12 @@ import java.util.TreeMap;
 @Data
 @Configuration
 @ConfigurationProperties(prefix = "grpc")
-public class GrpcConfiguration {
+public class GrpcEndpointProperties {
 
     private Map<String, String> endpoint = new HashMap<>();
 
     /**
      * 忽略大小写
-     *
-     * @return
      */
     public Map<String, String> getAllEndpoint() {
         Map<String, String> map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);

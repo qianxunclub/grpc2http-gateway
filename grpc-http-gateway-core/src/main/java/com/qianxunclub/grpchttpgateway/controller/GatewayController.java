@@ -1,7 +1,7 @@
 package com.qianxunclub.grpchttpgateway.controller;
 
 import com.google.protobuf.DescriptorProtos;
-import com.qianxunclub.grpchttpgateway.configuration.GrpcConfiguration;
+import com.qianxunclub.grpchttpgateway.configuration.GrpcEndpointProperties;
 import com.qianxunclub.grpchttpgateway.model.CallResults;
 import com.qianxunclub.grpchttpgateway.model.GrpcMethodDefinition;
 import com.qianxunclub.grpchttpgateway.service.GrpcProxyService;
@@ -35,7 +35,7 @@ import static java.util.Collections.singletonList;
 public class GatewayController {
 
     private final GrpcProxyService grpcProxyService;
-    private final GrpcConfiguration grpcConfiguration;
+    private final GrpcEndpointProperties grpcConfiguration;
 
     @GetMapping("/getEndpoint")
     public Object getEndpoint() {
@@ -45,7 +45,7 @@ public class GatewayController {
 
     @GetMapping("/{serverName}")
     public Object get(@PathVariable String serverName) throws Exception {
-        GrpcConfiguration.Endpoint endpoint = grpcConfiguration.getEndpoint(serverName);
+        GrpcEndpointProperties.Endpoint endpoint = grpcConfiguration.getEndpoint(serverName);
         List<DescriptorProtos.FileDescriptorSet> fileDescriptorSets = GrpcServiceUtils.getFileDescriptorSetList(
                 endpoint.getChannelHost(),
                 endpoint.getChannelPort()
@@ -60,7 +60,7 @@ public class GatewayController {
             @RequestBody String payload,
             @RequestParam(defaultValue = "{}") String headers
     ) throws Exception {
-        GrpcConfiguration.Endpoint endpoint = grpcConfiguration.getEndpoint(serverName);
+        GrpcEndpointProperties.Endpoint endpoint = grpcConfiguration.getEndpoint(serverName);
         GrpcMethodDefinition methodDefinition = GrpcReflectionUtils.parseToMethodDefinition(fullMethodName);
         Map<String, Object> headerMap = JSON.getGson().fromJson(headers, Map.class);
         ManagedChannel channel = null;
