@@ -23,8 +23,7 @@ Server server = ServerBuilder.forPort(SERVER_PORT)
 
 ### grpc-http-gateway 服务添加环境变量配置
 ```
-grpc.endpoint.服务名称.channelHost=localhost
-grpc.endpoint.服务名称.channelPort=9090
+grpc.endpoint.服务名称=dev.coding.oa.com:9902
 ```
 
 ### 启动 grpc-http-gateway 服务
@@ -67,5 +66,5 @@ curl \
 ### docker 构建镜像
 
 ```
- && 
+
 ```

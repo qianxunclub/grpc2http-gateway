@@ -14,15 +14,15 @@ import java.util.TreeMap;
 @ConfigurationProperties(prefix = "grpc")
 public class GrpcConfiguration {
 
-    private Map<String, Endpoint> endpoint = new HashMap<>();
+    private Map<String, String> endpoint = new HashMap<>();
 
     /**
      * 忽略大小写
      *
      * @return
      */
-    public Map<String, Endpoint> getAllEndpoint() {
-        Map<String, Endpoint> map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    public Map<String, String> getAllEndpoint() {
+        Map<String, String> map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         map.putAll(endpoint);
         return map;
     }
@@ -31,7 +31,10 @@ public class GrpcConfiguration {
         if (endpoint.get(serverName) == null) {
             throw new Exception("缺少【" + serverName + "】endpoint 配置");
         }
-        return endpoint.get(serverName);
+        return new Endpoint(
+                endpoint.get(serverName).split(":")[0],
+                Integer.parseInt(endpoint.get(serverName).split(":")[1])
+        );
     }
 
     @Data
@@ -45,5 +48,12 @@ public class GrpcConfiguration {
          * 端口
          */
         private Integer channelPort;
+
+
+        public Endpoint(String channelHost, Integer channelPort) {
+            this.channelHost = channelHost;
+            this.channelPort = channelPort;
+        }
+
     }
 }
