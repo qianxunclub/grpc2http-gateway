@@ -80,3 +80,7 @@ curl \
 cd docker-compose
 docker-compose up -d
 ```
+
+## 开发者讨论
+
+欢迎提交 PR 升级，有什么好建议或者想法的，可以添加QQ群一起讨论：852214454
