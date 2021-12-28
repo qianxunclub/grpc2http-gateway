@@ -20,6 +20,7 @@
         <git-commit-id-plugin.version>4.0.4</git-commit-id-plugin.version>
         <grpc.version>1.43.1</grpc.version>
         <protobuf-java-util.version>3.19.1</protobuf-java-util.version>
+        <springfox-boot-starter.version>3.0.0</springfox-boot-starter.version>
     </properties>
 
     <dependencies>
@@ -49,6 +50,11 @@
                 <artifactId>protobuf-java-util</artifactId>
                 <version>${protobuf-java-util.version}</version>
             </dependency>
+<!--            <dependency>-->
+<!--                <groupId>io.springfox</groupId>-->
+<!--                <artifactId>springfox-boot-starter</artifactId>-->
+<!--                <version>${springfox-boot-starter.version}</version>-->
+<!--            </dependency>-->
         </dependencies>
     </dependencyManagement>
 
