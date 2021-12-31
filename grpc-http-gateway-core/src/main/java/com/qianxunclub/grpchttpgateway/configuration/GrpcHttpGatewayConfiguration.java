@@ -5,10 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
+import springfox.documentation.oas.annotations.EnableOpenApi;
 
 
 @Slf4j
 @Configuration
+@EnableOpenApi
 public class GrpcHttpGatewayConfiguration {
 
     @EventListener(ApplicationReadyEvent.class)

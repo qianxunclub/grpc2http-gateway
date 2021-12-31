@@ -2,6 +2,7 @@ package com.qianxunclub.grpchttpgateway.utils;
 
 import com.google.protobuf.DescriptorProtos;
 import com.google.protobuf.Descriptors;
+import com.qianxunclub.grpchttpgateway.configuration.GrpcEndpointProperties;
 import com.qianxunclub.grpchttpgateway.grpc.ServiceResolver;
 import io.grpc.Channel;
 import io.grpc.ManagedChannelBuilder;
@@ -19,6 +20,16 @@ public class GrpcServiceUtils {
     static {
         blockServiceSet.add("grpc.health.v1.Health".toLowerCase());
         blockServiceSet.add("grpc.reflection.v1alpha.ServerReflection".toLowerCase());
+    }
+
+    public static List<DescriptorProtos.FileDescriptorSet> getFileDescriptorSetList(
+            GrpcEndpointProperties.Endpoint endpoint
+    ) {
+        Channel channel = ManagedChannelBuilder.forAddress(endpoint.getChannelHost(), endpoint.getChannelPort())
+                .usePlaintext()
+                .build();
+
+        return GrpcReflectionUtils.resolveServices(channel);
     }
 
 

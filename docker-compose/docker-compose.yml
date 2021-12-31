@@ -6,4 +6,5 @@ services:
     ports:
       - "8080:8080"
     environment:
+      - swagger.serverUrl=http://localhost:8080
       - grpc.endpoint.coding-app-project=dev.coding.oa.com:9902

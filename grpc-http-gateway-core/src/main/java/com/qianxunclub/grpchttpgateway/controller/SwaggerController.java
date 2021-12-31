@@ -1,5 +1,6 @@
 package com.qianxunclub.grpchttpgateway.controller;
 
+import com.qianxunclub.grpchttpgateway.service.OpenApiService;
 import io.swagger.v3.oas.models.OpenAPI;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,10 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "api", produces = MediaType.APPLICATION_JSON_VALUE)
 public class SwaggerController {
 
-    @GetMapping("/v2/api-docs/{serverName}")
-    public OpenAPI apiDocs(@PathVariable String serverName){
+    private final OpenApiService openApiService;
 
-        return new OpenAPI();
+    @GetMapping("/v2/api-docs/{serverName}")
+    public OpenAPI apiDocs(@PathVariable String serverName) throws Exception {
+        return openApiService.openApi(serverName);
 
     }
 }

@@ -22,6 +22,13 @@ Server server = ServerBuilder.forPort(SERVER_PORT)
 ```
 
 ### grpc-http-gateway 服务添加环境变量配置
+#### 配置 grpc-http-gateway 的 swagger 服务地址
+```
+# 这个复制是所部署的服务器地址的 IP 或者 域名，为了 swagger 执行调用
+swagger.serverUrl=http://localhost:8080
+```
+
+#### 添加 GRPC 服务端应用
 ```
 grpc.endpoint.服务名称=dev.coding.oa.com:9902
 ```
