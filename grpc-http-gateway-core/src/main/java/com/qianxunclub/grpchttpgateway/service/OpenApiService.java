@@ -6,6 +6,7 @@ import com.google.protobuf.Descriptors;
 import com.qianxunclub.grpchttpgateway.configuration.GrpcEndpointProperties;
 import com.qianxunclub.grpchttpgateway.configuration.SwaggerProperties;
 import com.qianxunclub.grpchttpgateway.grpc.ServiceResolver;
+import com.qianxunclub.grpchttpgateway.utils.FieldTypeEnum;
 import com.qianxunclub.grpchttpgateway.utils.GrpcServiceUtils;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -62,9 +63,11 @@ public class OpenApiService {
         Map<String, Schema> schemas = new HashMap<>();
         fileDescriptorSetList.forEach(fileDescriptorSet -> {
             ServiceResolver serviceResolver = ServiceResolver.fromFileDescriptorSet(fileDescriptorSet);
+
             serviceResolver.listMessageTypes().forEach(descriptor -> {
                 schemas.putAll(this.parseFields(descriptor));
             });
+
             serviceResolver.listServices().forEach(serviceDescriptor -> {
 
                 Tag tag = new Tag();
@@ -149,11 +152,20 @@ public class OpenApiService {
             if (fieldDescriptor.getType() == Descriptors.FieldDescriptor.Type.MESSAGE && fieldDescriptor.getMessageType().getOptions().getMapEntry()) {
                 schema = new MapSchema();
                 schema.setAdditionalProperties(this.parseField(fieldDescriptor.getMessageType().getFields().get(1)));
+            } else if (fieldDescriptor.getType() == Descriptors.FieldDescriptor.Type.ENUM) {
+                schema = new ArraySchema();
+                Schema items = new Schema();
+                List<String> enums = new ArrayList<>();
+                Descriptors.EnumDescriptor enumDescriptor = fieldDescriptor.getEnumType();
+                enumDescriptor.getValues().forEach(enumValueDescriptor -> enums.add(enumValueDescriptor.getName()));
+                items.setEnum(enums);
+                items.setType(FieldTypeEnum.getJavaSimpleType(fieldDescriptor.getType().name()));
+                ((ArraySchema) schema).setItems(items);
             } else { // array
                 schema = new ArraySchema();
                 Schema items = new Schema();
                 items.setFormat(fieldDescriptor.getType().name());
-                items.setType(fieldDescriptor.getJavaType().name().toLowerCase());
+                items.setType(FieldTypeEnum.getJavaSimpleType(fieldDescriptor.getType().name()));
                 if (fieldDescriptor.getType() == Descriptors.FieldDescriptor.Type.MESSAGE) {
                     items.set$ref(this.get$ref(fieldDescriptor.getMessageType().getFullName()));
                 }
@@ -163,11 +175,16 @@ public class OpenApiService {
             schema = new ObjectSchema();
             schema.set$ref(this.get$ref(fieldDescriptor.getMessageType().getFullName()));
         } else if (fieldDescriptor.getType() == Descriptors.FieldDescriptor.Type.ENUM) {
-            schema = new ObjectSchema();
+            schema = new Schema();
+            List<String> enums = new ArrayList<>();
+            Descriptors.EnumDescriptor enumDescriptor = fieldDescriptor.getEnumType();
+            enumDescriptor.getValues().forEach(enumValueDescriptor -> enums.add(enumValueDescriptor.getName()));
+            schema.setEnum(enums);
+            schema.setType(FieldTypeEnum.getJavaSimpleType(fieldDescriptor.getType().name()));
         } else {
             schema = new Schema();
             schema.setFormat(fieldDescriptor.getType().name());
-            schema.setType(fieldDescriptor.getDefaultValue().getClass().getSimpleName().toLowerCase());
+            schema.setType(FieldTypeEnum.getJavaSimpleType(fieldDescriptor.getType().name()));
         }
         schema.setTitle(fieldDescriptor.getName());
         return schema;
