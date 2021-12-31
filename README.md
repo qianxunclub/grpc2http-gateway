@@ -68,13 +68,13 @@ curl \
 
 #### 配置 grpc-http-gateway 的 swagger 服务地址
 ```
-# 这个复制是所部署的服务器地址的 IP 或者 域名，为了 swagger 执行调用
+# 这个配置是所部署的服务器地址的 IP 或者 域名，为了 swagger 执行调用
 swagger.serverUrl=http://localhost:8080
 ```
 
 访问：http://localhost:8080/swagger-ui/index.html  
 
-OPENAPP 地址填写：`http://localhost:8080/api/v2/api-docs/服务名称`
+OPENAPI 地址填写：`http://localhost:8080/api/v2/api-docs/服务名称`
 
 
 ## 开发构建
