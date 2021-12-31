@@ -22,11 +22,6 @@ Server server = ServerBuilder.forPort(SERVER_PORT)
 ```
 
 ### grpc-http-gateway 服务添加环境变量配置
-#### 配置 grpc-http-gateway 的 swagger 服务地址
-```
-# 这个复制是所部署的服务器地址的 IP 或者 域名，为了 swagger 执行调用
-swagger.serverUrl=http://localhost:8080
-```
 
 #### 添加 GRPC 服务端应用
 ```
@@ -54,6 +49,7 @@ service HelloService {
 }
 ```
 
+
 #### 获取服务端 Grpc 接口列表
 `GET` 请求 `http://localhost:8080/api/服务名称/`
 
@@ -67,6 +63,18 @@ curl \
     "fieldName":"value"
 }'
 ```
+
+### swagger 使用
+
+#### 配置 grpc-http-gateway 的 swagger 服务地址
+```
+# 这个复制是所部署的服务器地址的 IP 或者 域名，为了 swagger 执行调用
+swagger.serverUrl=http://localhost:8080
+```
+
+访问：http://localhost:8080/swagger-ui/index.html  
+
+OPENAPP 地址填写：`http://localhost:8080/api/v2/api-docs/服务名称`
 
 
 ## 开发构建
