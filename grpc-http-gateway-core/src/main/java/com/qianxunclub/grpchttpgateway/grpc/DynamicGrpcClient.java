@@ -1,11 +1,9 @@
-package com.qianxunclub.grpchttpgateway.service;
+package com.qianxunclub.grpchttpgateway.grpc;
 
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.protobuf.Descriptors.MethodDescriptor;
 import com.google.protobuf.DynamicMessage;
-import com.qianxunclub.grpchttpgateway.grpc.CompositeStreamObserver;
-import com.qianxunclub.grpchttpgateway.grpc.DoneObserver;
-import com.qianxunclub.grpchttpgateway.grpc.DynamicMessageMarshaller;
+import com.qianxunclub.grpchttpgateway.protobuf.DynamicMessageMarshaller;
 import com.qianxunclub.grpchttpgateway.model.CallParams;
 import com.qianxunclub.grpchttpgateway.utils.GrpcReflectionUtils;
 import io.grpc.ClientCall;
@@ -27,7 +25,7 @@ import static io.grpc.stub.ClientCalls.asyncUnaryCall;
 
 @Slf4j
 @Service
-public class GrpcClientService {
+public class DynamicGrpcClient {
 
     @Nullable
     public ListenableFuture<Void> call(CallParams callParams) {

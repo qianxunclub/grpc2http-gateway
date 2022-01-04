@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class ServerReflectionClient {
 
-    private static final long LIST_RPC_DEADLINE_MS = 10_000;
+    private static final long LIST_RPC_DEADLINE_MS = 1_000;
     private static final long LOOKUP_RPC_DEADLINE_MS = 10_000;
     private static final ServerReflectionRequest LIST_SERVICES_REQUEST =
             ServerReflectionRequest.newBuilder()
@@ -91,7 +91,7 @@ public class ServerReflectionClient {
             MessageResponseCase responseCase = serverReflectionResponse.getMessageResponseCase();
             switch (responseCase) {
                 case LIST_SERVICES_RESPONSE:
-                    handleListServiceResponse(serverReflectionResponse.getListServicesResponse());
+                    handleListServiceRespones(serverReflectionResponse.getListServicesResponse());
                     break;
                 default:
                     log.warn("Got unknown reflection response type: " + responseCase);
@@ -112,7 +112,7 @@ public class ServerReflectionClient {
             }
         }
 
-        private void handleListServiceResponse(ListServiceResponse response) {
+        private void handleListServiceRespones(ListServiceResponse response) {
             ImmutableList.Builder<String> servicesBuilder = ImmutableList.builder();
             response.getServiceList().forEach(service -> servicesBuilder.add(service.getName()));
             resultFuture.set(servicesBuilder.build());
@@ -157,7 +157,7 @@ public class ServerReflectionClient {
                     ImmutableSet<FileDescriptorProto> descriptors =
                             parseDescriptors(response.getFileDescriptorResponse().getFileDescriptorProtoList());
                     descriptors.forEach(d -> resolvedDescriptors.put(d.getName(), d));
-                    descriptors.forEach(this::processDependencies);
+                    descriptors.forEach(d -> processDependencies(d));
                     break;
                 default:
                     log.warn("Got unknown reflection response type: " + responseCase);

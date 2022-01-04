@@ -4,8 +4,9 @@ import com.google.protobuf.DescriptorProtos.FileDescriptorSet;
 import com.google.protobuf.Descriptors.MethodDescriptor;
 import com.google.protobuf.DynamicMessage;
 import com.google.protobuf.util.JsonFormat.TypeRegistry;
-import com.qianxunclub.grpchttpgateway.grpc.ServiceResolver;
+import com.qianxunclub.grpchttpgateway.grpc.DynamicGrpcClient;
 import com.qianxunclub.grpchttpgateway.model.CallParams;
+import com.qianxunclub.grpchttpgateway.protobuf.ServiceResolver;
 import com.qianxunclub.grpchttpgateway.model.CallResults;
 import com.qianxunclub.grpchttpgateway.model.GrpcMethodDefinition;
 import com.qianxunclub.grpchttpgateway.utils.GrpcReflectionUtils;
@@ -24,12 +25,12 @@ import java.util.concurrent.ExecutionException;
 @AllArgsConstructor
 public class GrpcProxyService {
 
-    private final GrpcClientService grpcClientService;
+    private final DynamicGrpcClient dynamicGrpcClient;
 
     public CallResults invokeMethod(GrpcMethodDefinition definition,
                                     Channel channel,
                                     CallOptions callOptions,
-                                    List<String> requestJsonTexts) {
+                                    List<String> requestJsonTexts) throws ExecutionException, InterruptedException {
         FileDescriptorSet fileDescriptorSet = GrpcReflectionUtils.resolveService(channel, definition.getFullServiceName());
         if (fileDescriptorSet == null) {
             return null;
@@ -48,11 +49,7 @@ public class GrpcProxyService {
                 .requests(requestMessages)
                 .responseObserver(streamObserver)
                 .build();
-        try {
-            Objects.requireNonNull(grpcClientService.call(callParams)).get();
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException("Caught exception while waiting for rpc", e);
-        }
+        Objects.requireNonNull(dynamicGrpcClient.call(callParams)).get();
         return results;
     }
 }

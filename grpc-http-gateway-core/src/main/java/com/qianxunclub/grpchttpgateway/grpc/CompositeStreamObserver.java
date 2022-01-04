@@ -5,7 +5,7 @@ import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * A {@link StreamObserver} which groups multiple observers and executes them all.
+ * A {@link StreamObserver} holding a future which completes when the rpc terminates.
  */
 @Slf4j
 public class CompositeStreamObserver<T> implements StreamObserver<T> {
@@ -13,7 +13,7 @@ public class CompositeStreamObserver<T> implements StreamObserver<T> {
 
     @SafeVarargs
     public static <T> CompositeStreamObserver<T> of(StreamObserver<T>... observers) {
-        return new CompositeStreamObserver<>(ImmutableList.copyOf(observers));
+        return new CompositeStreamObserver<T>(ImmutableList.copyOf(observers));
     }
 
     private CompositeStreamObserver(ImmutableList<StreamObserver<T>> observers) {

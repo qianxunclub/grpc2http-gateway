@@ -18,7 +18,7 @@ public class SwaggerController {
 
     private final OpenApiService openApiService;
 
-    @GetMapping("/v2/api-docs/{serverName}")
+    @GetMapping("/v3/api-docs/{serverName}")
     public OpenAPI apiDocs(@PathVariable String serverName) throws Exception {
         return openApiService.openApi(serverName);
 

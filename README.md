@@ -74,7 +74,7 @@ swagger.serverUrl=http://localhost:8080
 
 访问：http://localhost:8080/swagger-ui/index.html  
 
-OPENAPI 地址填写：`http://localhost:8080/api/v2/api-docs/服务名称`
+OPENAPI 地址填写：`http://localhost:8080/api/v3/api-docs/服务名称`
 
 
 ## 开发构建

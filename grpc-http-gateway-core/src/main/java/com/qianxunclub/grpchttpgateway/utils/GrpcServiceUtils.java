@@ -3,7 +3,7 @@ package com.qianxunclub.grpchttpgateway.utils;
 import com.google.protobuf.DescriptorProtos;
 import com.google.protobuf.Descriptors;
 import com.qianxunclub.grpchttpgateway.configuration.GrpcEndpointProperties;
-import com.qianxunclub.grpchttpgateway.grpc.ServiceResolver;
+import com.qianxunclub.grpchttpgateway.protobuf.ServiceResolver;
 import io.grpc.Channel;
 import io.grpc.ManagedChannelBuilder;
 

@@ -1,4 +1,4 @@
-package com.qianxunclub.grpchttpgateway.grpc;
+package com.qianxunclub.grpchttpgateway.protobuf;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;

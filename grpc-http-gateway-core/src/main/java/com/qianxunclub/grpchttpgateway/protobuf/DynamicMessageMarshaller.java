@@ -1,4 +1,4 @@
-package com.qianxunclub.grpchttpgateway.grpc;
+package com.qianxunclub.grpchttpgateway.protobuf;
 
 import com.google.protobuf.Descriptors.Descriptor;
 import com.google.protobuf.DynamicMessage;
