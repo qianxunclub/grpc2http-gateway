@@ -1,4 +1,4 @@
-# grpc-http-gateway
+# grpc2http-gateway
 ## 简介
 该服务是基于 [Grpc 反射](https://github.com/grpc/grpc/blob/master/doc/server-reflection.md) 开发的一款 Grpc 换为 Http 请求的工具。  
 因为是基于反射开发，所以使用时无需修改 proto 及相关的代码实现，只需在启动服务时开启反射功能。
@@ -21,14 +21,14 @@ Server server = ServerBuilder.forPort(SERVER_PORT)
     .start();
 ```
 
-### grpc-http-gateway 服务添加环境变量配置
+### grpc2http-gateway 服务添加环境变量配置
 
 #### 添加 GRPC 服务端应用
 ```
 grpc.endpoint.服务名称=dev.coding.oa.com:9902
 ```
 
-### 启动 grpc-http-gateway 服务
+### 启动 grpc2http-gateway 服务
 
 示例 proto
 ```
@@ -66,7 +66,7 @@ curl \
 
 ### swagger 使用
 
-#### 配置 grpc-http-gateway 的 swagger 服务地址
+#### 配置 grpc2http-gateway 的 swagger 服务地址
 ```
 # 这个配置是所部署的服务器地址的 IP 或者 域名，为了 swagger 执行调用
 swagger.serverUrl=http://localhost:8080
@@ -83,7 +83,7 @@ OPENAPI 地址填写：`http://localhost:8080/api/v3/api-docs/服务名称`
 ```
 ./docker-build.sh
 ```
-构建完镜像名称为：`grpc-http-gateway:latest`
+构建完镜像名称为：`grpc2http-gateway:latest`
 
 
 ## 部署
