@@ -5,6 +5,7 @@ import com.google.protobuf.Descriptors;
 import com.qianxunclub.grpc2httpgateway.configuration.GrpcEndpointProperties;
 import com.qianxunclub.grpc2httpgateway.protobuf.ServiceResolver;
 import io.grpc.Channel;
+import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
 import java.util.ArrayList;
@@ -25,20 +26,17 @@ public class GrpcServiceUtils {
     public static List<DescriptorProtos.FileDescriptorSet> getFileDescriptorSetList(
             GrpcEndpointProperties.Endpoint endpoint
     ) {
-        Channel channel = ManagedChannelBuilder.forAddress(endpoint.getChannelHost(), endpoint.getChannelPort())
-                .usePlaintext()
-                .build();
-
-        return GrpcReflectionUtils.resolveServices(channel);
+        return GrpcServiceUtils.getFileDescriptorSetList(endpoint.getChannelHost(), endpoint.getChannelPort());
     }
 
 
     public static List<DescriptorProtos.FileDescriptorSet> getFileDescriptorSetList(String host, int port) {
-        Channel channel = ManagedChannelBuilder.forAddress(host, port)
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(host, port)
                 .usePlaintext()
                 .build();
-
-        return GrpcReflectionUtils.resolveServices(channel);
+        List<DescriptorProtos.FileDescriptorSet> fileDescriptorSetList = GrpcReflectionUtils.resolveServices(channel);
+        channel.shutdown();
+        return fileDescriptorSetList;
     }
 
     public static List<String> getServiceNames(List<DescriptorProtos.FileDescriptorSet> fileDescriptorSets) {
