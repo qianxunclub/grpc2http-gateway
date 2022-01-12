@@ -1,4 +1,5 @@
 # grpc2http-gateway
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/qianxunclub/grpc2http-gateway/blob/main/LICENSE)
 ## 简介
 该服务是基于 [Grpc 反射](https://github.com/grpc/grpc/blob/master/doc/server-reflection.md) 开发的一款 Grpc 换为 Http 请求的工具。  
 因为是基于反射开发，所以使用时无需修改 proto 及相关的代码实现，只需在启动服务时开启反射功能。
