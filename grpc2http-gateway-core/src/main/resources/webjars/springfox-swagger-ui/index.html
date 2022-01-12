@@ -47,7 +47,6 @@
                 success: function (result) {
                     let urls = [];
                     for (const serverName in result) {
-                        console.log(serverName);
                         urls.push({
                             name: serverName,
                             url: window.location.protocol + "//" + window.location.host + "/api/v3/api-docs/" + serverName
