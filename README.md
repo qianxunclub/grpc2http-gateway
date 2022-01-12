@@ -1,5 +1,6 @@
 # grpc2http-gateway
 [![License](https://github.com/qianxunclub/grpc2http-gateway/workflows/maven_build/badge.svg?branch=master)](https://github.com/qianxunclub/grpc2http-gateway/actions/workflows/maven_build.yml)
+[![codecov](https://codecov.io/gh/qianxunclub/grpc2http-gateway/branch/master/graph/badge.svg?token=ZEWH3G98RL)](https://codecov.io/gh/qianxunclub/grpc2http-gateway)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/qianxunclub/grpc2http-gateway/blob/main/LICENSE)
 ## 简介
 该服务是基于 [Grpc 反射](https://github.com/grpc/grpc/blob/master/doc/server-reflection.md) 开发的一款 Grpc 换为 Http 请求的工具。  
